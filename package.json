@@ -1,0 +1,20 @@
+{
+  "name": "sign-in-with-burner",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "browserify src/index.js -o static/js/index.js && node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ethers": "^4.0.23"
+  },
+  "devDependencies": {
+    "express": "^4.16.4",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^4.0.0"
+  }
+}
