@@ -1,4 +1,6 @@
-import { Wallet } from 'ethers';
+const ethers =  require('ethers');
+
+console.log("hia");
 
 if(window.opener) {
   window.opener.postMessage('loaded', '*')
@@ -22,10 +24,10 @@ function postDetails(event) {
       <button id="confirm" style="background-color: green; color:white;width:100px;height:50px;">Allow</button>
     </div>
   `
-  //TODO: Actuall hook this up
+  //TODO: Handle error case in a well defined way
   document.getElementById('confirm').addEventListener('click', function() {
     let pk = localStorage.getItem('metaPrivateKey')
-    let wallet = new Wallet(pk)
+    let wallet = new ethers.Wallet(pk)
 
     wallet.signMessage(`login-with-burner:${event.data.challenge}`).then(signature => {
       event.source.postMessage({command: 'signed', signature: signature, address: wallet.address}, '*')
