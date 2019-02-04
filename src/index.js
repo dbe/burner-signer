@@ -1,7 +1,5 @@
 const ethers =  require('ethers');
 
-console.log("hia");
-
 if(window.opener) {
   window.opener.postMessage('loaded', '*')
 }

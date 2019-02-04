@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "browserify src/index.js -o dist/index.js"
+    "start": "npm run build && node server.js",
+    "build": "browserify src/index.js -o dist/index.js"
   },
   "author": "",
   "license": "ISC",
