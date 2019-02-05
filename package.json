@@ -1,14 +1,14 @@
 {
-  "name": "sign-in-with-burner",
+  "name": "burner-signer",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "Burner wallet extension for allowing 3rd party websites to sign in with the Burner Wallet",
+  "main": "dist/index.js",
   "scripts": {
     "start": "npm run build && node server.js",
     "build": "browserify src/index.js -o dist/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "David Brian Ethier (dbe) <davidbrianethier@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "ethers": "^4.0.23"
   },
