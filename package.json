@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "npm run build && node server.js",
-    "build": "browserify src/index.js -o dist/index.js"
+    "build": "browserify src/index.js -o dist/index.js",
+    "deploy": "npm build && deploy.sh: FIX ME AUSTIN"
   },
   "author": "David Brian Ethier (dbe) <davidbrianethier@gmail.com>",
   "license": "MIT",
