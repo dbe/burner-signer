@@ -50,6 +50,6 @@ const cfparams = {
 };
 
 cloudfront.createInvalidation(cfparams, function(err, data) {
-  console.log('err: ', err);
-  console.log('data: ', data);
+  if(err) throw err;
+  console.log("Cloud front successfully invalidated")
 });
