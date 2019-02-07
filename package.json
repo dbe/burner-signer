@@ -11,10 +11,10 @@
   "author": "David Brian Ethier (dbe) <davidbrianethier@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.397.0",
     "ethers": "^4.0.23"
   },
   "devDependencies": {
+    "aws-sdk": "^2.398.0",
     "browserify": "^16.2.3",
     "express": "^4.16.4"
   }
