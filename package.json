@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "npm run build && node server.js",
-    "build": "browserify src/index.js -o dist/index.js",
+    "build": "browserify src/index.js -o dist/index.js && cp -r src/static/* dist/",
     "deploy": "npm run build && node deploy.js"
   },
   "author": "David Brian Ethier (dbe) <davidbrianethier@gmail.com>",
