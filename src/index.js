@@ -1,4 +1,5 @@
 const ethers = require('ethers');
+const blockies = require('ethereum-blockies');
 
 if(window.opener) {
   window.opener.postMessage('loaded', '*')

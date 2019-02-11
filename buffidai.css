@@ -1,0 +1,30 @@
+body {
+  background-image: linear-gradient(rgb(84, 13, 72), rgb(32, 1, 45));
+  background-color: rgb(32, 1, 45);
+  font-family: sans-serif;
+}
+
+.heading {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  font-size: 10px;
+}
+
+.title-one {
+  color: #252525;
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.auth-btn {
+  color: white;
+  background-image: linear-gradient(rgb(222, 62, 195), rgb(182, 41, 158));
+  background-color: rgb(182, 41, 158); color: rgb(255, 255, 255);
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  font-size: 22px
+}
