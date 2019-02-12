@@ -10,8 +10,9 @@ const BUCKET = 'xdai.io'
 const files = [
   {source: 'index.html', key: 'login', type: 'text/html'},
   {source: 'dist/index.js', key: 'static/index.js', type: 'text/javascript'},
+  {source: 'dist/xdai.css', key: 'static/xdai.css', type: 'text/css'},
+  {source: 'dist/whiteburn.png', key: 'static/whiteburn.png', type: 'image/png'},
 ]
-
 
 //Upload all files
 files.map(file => uploadFile(file));
@@ -23,7 +24,6 @@ const cfparams = {
     CallerReference: ''+(new Date()),
     Paths: {
       Quantity: files.length,
-      // Items: ["/login","/static/index.js"]
       Items: files.map(file => `/${file.key}`)
     }
   }
