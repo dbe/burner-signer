@@ -20,10 +20,11 @@
 
             <div id="has-wallet" class="d-none">
               <div style="border: 2px solid #686868; padding: 15px">
-                <h5 class="text-center title-one">https://dbe.github.io</h5>
-                <h1 class="text-center font-weight-bold">Seventy Twenty One</h1>
+                <h5 id="client-url" class="text-center title-one"></h5>
+                <h1 id="client-name" class="text-center font-weight-bold"></h1>
               </div>
-              <h5 class="text-center mt-5 mb-5">is requesting access to your burner wallet's address</h5>
+              <h5 class="text-center mt-5 mb-5">is requesting access to your burner wallet's address:</h5>
+              <p id="wallet-address" class="text-center"></p>
               <button id="confirm" type="submit" class="btn btn-primary btn-block auth-btn"><i class="fa fa-check-circle"> Allow</i></button>
             </div>
 
@@ -43,7 +44,7 @@
               <p>The Burner Wallet won't create you a new ephemeral wallet if you are using a web3 provider such as Metamask.</p>
               <a class="btn btn-primary btn-block auth-btn w-50 m-auto" href="/" role="button">Generate Wallet</a>
             </div>
-            
+
           </div>
       </div>
     </div>

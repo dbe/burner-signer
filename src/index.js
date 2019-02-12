@@ -1,5 +1,4 @@
 const ethers = require('ethers');
-const blockies = require('ethereum-blockies');
 
 let wallet;
 
@@ -20,8 +19,6 @@ $(() => {
     }
 
     window.addEventListener("message", receiveMessage, false);
-
-    //Setup blockie
   }
 });
 
@@ -43,6 +40,10 @@ function receiveMessage(event) {
 }
 
 function postDetails(event) {
+  $('#client-url').html(event.origin)
+  $('#client-name').html(event.data.name)
+  $('#wallet-address').html(wallet.address)
+
   $('#confirm').click(function() {
     wallet.signMessage(`login-with-burner:${event.data.challenge}`).then(signature => {
       event.source.postMessage({command: 'signed', signature: signature, address: wallet.address}, '*')
