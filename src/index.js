@@ -9,17 +9,34 @@ $(() => {
   if(wallet === null) {
     $('#no-wallet').toggleClass('d-none');
 
+    $('#generate-wallet').click(function() {
+      wallet = generateNewWallet()
+
+      $('#no-wallet').toggleClass('d-none');
+      loadHasWallet()
+    })
+
   //User has a wallet
   } else {
-    $('#has-wallet').toggleClass('d-none');
-
-    if(window.opener) {
-      window.opener.postMessage('loaded', '*');
-    }
-
-    window.addEventListener("message", receiveMessage, false);
+    loadHasWallet()
   }
 });
+
+function generateNewWallet() {
+  let wallet = ethers.Wallet.createRandom();
+  localStorage.setItem('metaPrivateKey', wallet.privateKey);
+  return wallet;
+}
+
+function loadHasWallet() {
+  $('#has-wallet').toggleClass('d-none');
+
+  if(window.opener) {
+    window.opener.postMessage('loaded', '*');
+  }
+
+  window.addEventListener("message", receiveMessage, false);
+}
 
 function loadWallet() {
   let pk = localStorage.getItem('metaPrivateKey');
