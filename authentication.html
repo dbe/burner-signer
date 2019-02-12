@@ -4,31 +4,52 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/static/xdai.css">
-    <!--<link rel="stylesheet" href="/static/burnerwallet.css">-->
-    <!--<link rel="stylesheet" href="/static/buffidai.css">-->
+    <!-- <link rel="stylesheet" href="/static/burnerwallet.css"> -->
+    <!-- <link rel="stylesheet" href="/static/buffidai.css"> -->
   </head>
 
-
-  <!-- xDai -->
-
   <body>
-    <img src="/static/whiteburn.png" height="70" style="position: fixed; bottom: 10; right: 10">
-    <div class="mt-4 mb-0 heading">
+    <div class="mt-4 mb-4 heading">
+      <img src="/static/whiteburn.png" height="70">
+    </div>
+
+    <!-- <div class="mt-4 mb-0 heading">
       <img src="https://i.imgur.com/fRkDory.png" width="45" height="45">
       <p>ac9669</p>
-    </div>
+    </div> -->
+
     <div class="row mt-2">
       <div class="col-md-6 m-auto">
           <div class="card card-body">
-            <div style="border: 2px solid #686868; padding: 15px">
-              <h5 class="text-center title-one">https://dbe.github.io</h5>
-              <h1 class="text-center font-weight-bold">Seventy Twenty One</h1>
+
+            <!-- <div id="has-wallet">
+              <div style="border: 2px solid #686868; padding: 15px">
+                <h5 class="text-center title-one">https://dbe.github.io</h5>
+                <h1 class="text-center font-weight-bold">Seventy Twenty One</h1>
+              </div>
+              <h5 class="text-center mt-5 mb-5">is requesting access to your burner wallet's address</h5>
+              <button type="submit" class="btn btn-primary btn-block auth-btn"><i class="fa fa-check-circle"> Allow</i></button>
+            </div> -->
+
+            <div id="no-wallet" class="m-auto" style="display: none;">
+              <p class="mt-5">
+                It appears you don't have a wallet setup yet.
+              </p>
+              <p>
+                If you previously had one, but don't see it now it might be because you:
+              </p>
+              <ul>
+                <li>Previously used a web3 provider such as Metamask</li>
+                <li>Changed browsers</li>
+                <li>Cleared your local storage</li>
+              </ul>
+
+              <p>The Burner Wallet won't create you a new ephemeral wallet if you are using a web3 provider such as Metamask.</p>
+              <a class="btn btn-primary btn-block auth-btn w-50 m-auto" href="/" role="button">Generate Wallet</a>
             </div>
-            <h5 class="text-center mt-5 mb-5">is requesting access to your burner wallet's address</h5>
-            <button type="submit" class="btn btn-primary btn-block auth-btn"><i class="fa fa-check-circle"> Allow</i></button>
+
           </div>
       </div>
     </div>
   </body>
-
 </html>
