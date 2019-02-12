@@ -6,50 +6,60 @@ const awsCreds = JSON.parse(fs.readFileSync("aws.json").toString().trim())
 const s3 = new aws.S3(awsCreds);
 const cloudfront = new aws.CloudFront(awsCreds);
 
-fs.readFile('index.html', (err, data) => {
-  if (err) throw err;
-  const params = {
-     Bucket: 'xdai.io', // pass your bucket name
-     Key: 'login', // file will be saved as testBucket/contacts.csv
-     ContentType: 'text/html',
-     Body: data,
-     ACL: 'public-read'
-  };
+//TODO: Make everything configurable
+const BUCKET = 'xdai.io'
+// const BUCKET = 'buffidai.io'
 
-   s3.upload(params, function(s3Err, data) {
-     if (s3Err) throw s3Err;
-     console.log(`File uploaded successfully at ${data.Location}`)
-   });
-});
+const files = [
+  {source: 'index.html', key: 'login', type: 'text/html'},
+  {source: 'dist/index.js', key: 'static/index.js', type: 'text/javascript'},
+  {source: 'dist/xdai.css', key: 'static/xdai.css', type: 'text/css'},
+  // {source: 'dist/buffidai.css', key: 'static/buffidai.css', type: 'text/css'},
+  {source: 'dist/whiteburn.png', key: 'static/whiteburn.png', type: 'image/png'},
+]
 
-fs.readFile('dist/index.js', (err, data) => {
-  if (err) throw err;
-  const params = {
-    Bucket: 'xdai.io', // pass your bucket name
-    Key: 'static/index.js', // file will be saved as testBucket/contacts.csv
-    ContentType: 'text/javascript',
-    Body: data,
-    ACL: 'public-read'
-  };
+//Upload all files
+files.map(file => uploadFile(file));
 
-  s3.upload(params, function(s3Err, data) {
-    if (s3Err) throw s3Err
-    console.log(`File uploaded successfully at ${data.Location}`)
-  });
-});
-
+//Invalidate cache
 const cfparams = {
-  DistributionId: "E3CMN5REPPRQFO",
+  DistributionId: "E3CMN5REPPRQFO", //xdai.io
+  // DistributionId: "EO4J1L211YU2O", //burnerwallet.io
+  // DistributionId: "E3UXHQH85ACKYA", //buffidai.io
   InvalidationBatch: {
     CallerReference: ''+(new Date()),
     Paths: {
-      Quantity: 2,
-      Items: ["/login","/static/index.js"]
+      Quantity: files.length,
+      Items: files.map(file => `/${file.key}`)
     }
   }
 };
 
+console.log('cfparams: ', cfparams);
+console.log('cfparams.InvalidationBatch.Paths.Items: ', cfparams.InvalidationBatch.Paths.Items);
+
 cloudfront.createInvalidation(cfparams, function(err, data) {
   if(err) throw err;
+  console.log('data: ', data);
   console.log("Cloud front successfully invalidated")
 });
+
+function uploadFile(spec) {
+  console.log('Uploading file: ', spec);
+
+  fs.readFile(spec.source, (err, data) => {
+    if (err) throw err;
+    const params = {
+       Bucket: BUCKET, // pass your bucket name
+       Key: spec.key, // file will be saved as testBucket/contacts.csv
+       ContentType: spec.type,
+       Body: data,
+       ACL: 'public-read'
+    };
+
+     s3.upload(params, function(s3Err, data) {
+       if (s3Err) throw s3Err;
+       console.log(`File uploaded successfully at ${data.Location}`)
+     });
+  });
+}

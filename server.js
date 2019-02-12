@@ -9,4 +9,9 @@ app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/index.html`)
 })
 
+app.get('/authentication', (req, res) => {
+  console.log("Serving authentication.html")
+  res.sendFile(`${__dirname}/authentication.html`)
+})
+
 app.listen(port, () => console.log(`BurnerWalletServer listening on port: ${port}!`))

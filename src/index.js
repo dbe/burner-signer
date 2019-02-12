@@ -1,10 +1,53 @@
 const ethers = require('ethers');
 
-if(window.opener) {
-  window.opener.postMessage('loaded', '*')
+let wallet;
+
+$(() => {
+  wallet = loadWallet();
+
+  //User doesn't have a wallet setup
+  if(wallet === null) {
+    $('#no-wallet').toggleClass('d-none');
+
+    $('#generate-wallet').click(function() {
+      wallet = generateNewWallet()
+
+      $('#no-wallet').toggleClass('d-none');
+      loadHasWallet()
+    })
+
+  //User has a wallet
+  } else {
+    loadHasWallet()
+  }
+});
+
+function generateNewWallet() {
+  let wallet = ethers.Wallet.createRandom();
+  localStorage.setItem('metaPrivateKey', wallet.privateKey);
+  return wallet;
 }
 
-window.addEventListener("message", receiveMessage, false);
+function loadHasWallet() {
+  $('#has-wallet').toggleClass('d-none');
+
+  if(window.opener) {
+    window.opener.postMessage('loaded', '*');
+  }
+
+  window.addEventListener("message", receiveMessage, false);
+}
+
+function loadWallet() {
+  let pk = localStorage.getItem('metaPrivateKey');
+  try {
+    let wallet = new ethers.Wallet(pk);
+    return wallet;
+  } catch(e) {
+    console.log('error loading wallet: ', e);
+    return null;
+  }
+}
 
 function receiveMessage(event) {
   if(event.data && event.data.command === 'sign') {
@@ -13,35 +56,14 @@ function receiveMessage(event) {
 }
 
 function postDetails(event) {
-  let details = document.getElementById('details');
-  let pk = localStorage.getItem('metaPrivateKey')
-  try {
-    let wallet = new ethers.Wallet(pk)
+  $('#client-url').html(event.origin)
+  $('#client-name').html(event.data.name)
+  $('#wallet-address').html(wallet.address)
 
-    details.innerHTML = `
-      <div>
-        <p>${event.data.name} - ${event.origin}</p>
-        <p>Is requesting access to your Burner Wallet's address.</p>
-        <button id="confirm" style="background-color: green; color:white;width:100px;height:50px;">Allow</button>
-      </div>
-    `
-    document.getElementById('confirm').addEventListener('click', function() {
-      try {
-        let wallet = new ethers.Wallet(pk)
-        wallet.signMessage(`login-with-burner:${event.data.challenge}`).then(signature => {
-          event.source.postMessage({command: 'signed', signature: signature, address: wallet.address}, '*')
-          window.close()
-        })
-      } catch(e) {
-        event.source.postMessage({command: 'error', message: e}, '*')
-      }
-    })
-  } catch(e) {
-    console.log('e: ', e);
-    details.innerHTML = `
-      <div>
-        <p>You don't have a burner wallet setup yet.</p>
-      </div>
-    `
-  }
+  $('#confirm').click(function() {
+    wallet.signMessage(`login-with-burner:${event.data.challenge}`).then(signature => {
+      event.source.postMessage({command: 'signed', signature: signature, address: wallet.address}, '*')
+      window.close();
+    });
+  });
 }
