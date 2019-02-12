@@ -43,7 +43,7 @@ function receiveMessage(event) {
 }
 
 function postDetails(event) {
-  document.getElementById('confirm').addEventListener('click', function() {
+  $('#confirm').click(function() {
     wallet.signMessage(`login-with-burner:${event.data.challenge}`).then(signature => {
       event.source.postMessage({command: 'signed', signature: signature, address: wallet.address}, '*')
       window.close();
