@@ -4,7 +4,6 @@ let wallet;
 
 $(() => {
   wallet = loadWallet();
-  console.log('wallet: ', wallet);
 
   //User doesn't have a wallet setup
   if(wallet === null) {

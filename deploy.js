@@ -6,50 +6,54 @@ const awsCreds = JSON.parse(fs.readFileSync("aws.json").toString().trim())
 const s3 = new aws.S3(awsCreds);
 const cloudfront = new aws.CloudFront(awsCreds);
 
-fs.readFile('index.html', (err, data) => {
-  if (err) throw err;
-  const params = {
-     Bucket: 'xdai.io', // pass your bucket name
-     Key: 'login', // file will be saved as testBucket/contacts.csv
-     ContentType: 'text/html',
-     Body: data,
-     ACL: 'public-read'
-  };
+const BUCKET = 'xdai.io'
+const files = [
+  {source: 'index.html', key: 'login', type: 'text/html'},
+  {source: 'dist/index.js', key: 'static/index.js', type: 'text/javascript'},
+]
 
-   s3.upload(params, function(s3Err, data) {
-     if (s3Err) throw s3Err;
-     console.log(`File uploaded successfully at ${data.Location}`)
-   });
-});
 
-fs.readFile('dist/index.js', (err, data) => {
-  if (err) throw err;
-  const params = {
-    Bucket: 'xdai.io', // pass your bucket name
-    Key: 'static/index.js', // file will be saved as testBucket/contacts.csv
-    ContentType: 'text/javascript',
-    Body: data,
-    ACL: 'public-read'
-  };
+//Upload all files
+files.map(file => uploadFile(file));
 
-  s3.upload(params, function(s3Err, data) {
-    if (s3Err) throw s3Err
-    console.log(`File uploaded successfully at ${data.Location}`)
-  });
-});
-
+//Invalidate cache
 const cfparams = {
   DistributionId: "E3CMN5REPPRQFO",
   InvalidationBatch: {
     CallerReference: ''+(new Date()),
     Paths: {
-      Quantity: 2,
-      Items: ["/login","/static/index.js"]
+      Quantity: files.length,
+      // Items: ["/login","/static/index.js"]
+      Items: files.map(file => `/${file.key}`)
     }
   }
 };
 
+console.log('cfparams: ', cfparams);
+console.log('cfparams.InvalidationBatch.Paths.Items: ', cfparams.InvalidationBatch.Paths.Items);
+
 cloudfront.createInvalidation(cfparams, function(err, data) {
   if(err) throw err;
+  console.log('data: ', data);
   console.log("Cloud front successfully invalidated")
 });
+
+function uploadFile(spec) {
+  console.log('Uploading file: ', spec);
+
+  fs.readFile(spec.source, (err, data) => {
+    if (err) throw err;
+    const params = {
+       Bucket: BUCKET, // pass your bucket name
+       Key: spec.key, // file will be saved as testBucket/contacts.csv
+       ContentType: spec.type,
+       Body: data,
+       ACL: 'public-read'
+    };
+
+     s3.upload(params, function(s3Err, data) {
+       if (s3Err) throw s3Err;
+       console.log(`File uploaded successfully at ${data.Location}`)
+     });
+  });
+}
