@@ -6,11 +6,15 @@ const awsCreds = JSON.parse(fs.readFileSync("aws.json").toString().trim())
 const s3 = new aws.S3(awsCreds);
 const cloudfront = new aws.CloudFront(awsCreds);
 
+//TODO: Make everything configurable
 const BUCKET = 'xdai.io'
+// const BUCKET = 'buffidai.io'
+
 const files = [
   {source: 'index.html', key: 'login', type: 'text/html'},
   {source: 'dist/index.js', key: 'static/index.js', type: 'text/javascript'},
   {source: 'dist/xdai.css', key: 'static/xdai.css', type: 'text/css'},
+  // {source: 'dist/buffidai.css', key: 'static/buffidai.css', type: 'text/css'},
   {source: 'dist/whiteburn.png', key: 'static/whiteburn.png', type: 'image/png'},
 ]
 
@@ -19,7 +23,9 @@ files.map(file => uploadFile(file));
 
 //Invalidate cache
 const cfparams = {
-  DistributionId: "E3CMN5REPPRQFO",
+  DistributionId: "E3CMN5REPPRQFO", //xdai.io
+  // DistributionId: "EO4J1L211YU2O", //burnerwallet.io
+  // DistributionId: "E3UXHQH85ACKYA", //buffidai.io
   InvalidationBatch: {
     CallerReference: ''+(new Date()),
     Paths: {
