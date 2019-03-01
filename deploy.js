@@ -11,8 +11,8 @@ const BUCKET = 'xdai.io'
 // const BUCKET = 'buffidai.io'
 
 const files = [
-  {source: 'index.html', key: 'login', type: 'text/html'},
-  {source: 'dist/index.js', key: 'static/index.js', type: 'text/javascript'},
+  {source: 'index.html', key: 'loginV2', type: 'text/html'},
+  {source: 'dist/index.js', key: 'static/indexV2.js', type: 'text/javascript'},
   {source: 'dist/xdai.css', key: 'static/xdai.css', type: 'text/css'},
   // {source: 'dist/buffidai.css', key: 'static/buffidai.css', type: 'text/css'},
   {source: 'dist/whiteburn.png', key: 'static/whiteburn.png', type: 'image/png'},
