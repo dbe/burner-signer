@@ -83,11 +83,11 @@ function signDetails(event) {
   let bnify = ethers.utils.bigNumberify;
 
   let tx = event.data.tx;
+  $('#tx').html(JSON.stringify(tx))
+
   tx.gasPrice = bnify(tx.gasPrice);
   tx.gasLimit = bnify(tx.gasLimit);
   tx.value = bnify(tx.value);
-
-  $('#tx').html(JSON.stringify(event.data.tx))
 
   $('#confirm').click(function() {
     wallet.sign(event.data.tx).then(signed => {
